@@ -1,0 +1,8 @@
+Dec 31, 2020 12:05:52 PM deserialisationController main
+INFO: Deserializing
+Dec 31, 2020 12:05:52 PM deserialisationController deserializeFromFile
+SEVERE: IO Exception occurred during file creation Unauthorized deserialization attempt; javax.management.BadAttributeValueExpException
+Dec 31, 2020 12:10:52 PM deserialisationController main
+INFO: Deserializing
+Dec 31, 2020 12:10:52 PM deserialisationController deserializeFromFile
+SEVERE: IO Exception occurred during file creation Unauthorized deserialization attempt; javax.management.BadAttributeValueExpException

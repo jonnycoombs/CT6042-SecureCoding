@@ -1,0 +1,24 @@
+Dec 04, 2020 12:41:30 AM deserialisationController main
+INFO: Deserializing
+Dec 04, 2020 12:41:30 AM deserialisationController deserializeToFile
+SEVERE: File not found exception occurred during file creation.cust.ser (The system cannot find the file specified)
+Dec 04, 2020 12:42:39 AM deserialisationController main
+INFO: Deserializing
+Dec 04, 2020 12:42:39 AM deserialisationController deserializeToFile
+SEVERE: IO Exception occurred during file creationnull
+Dec 04, 2020 12:44:12 AM deserialisationController main
+INFO: Deserializing
+Dec 04, 2020 12:44:12 AM deserialisationController deserializeToFile
+SEVERE: IO Exception occurred during file creationnull
+Dec 04, 2020 1:54:03 PM deserialisationController main
+INFO: Deserializing
+Dec 04, 2020 1:54:03 PM deserialisationController deserializeToFile
+SEVERE: Error occurred during file creation.javax.management.BadAttributeValueExpException cannot be cast to userModel
+Dec 04, 2020 2:02:50 PM deserialisationController main
+INFO: Deserializing
+Dec 04, 2020 2:02:50 PM deserialisationController deserializeToFile
+SEVERE: Error occurred during file creation.javax.management.BadAttributeValueExpException cannot be cast to userModel
+Dec 04, 2020 2:05:31 PM deserialisationController main
+INFO: Deserializing
+Dec 04, 2020 2:05:31 PM deserialisationController deserializeToFile
+SEVERE: Error occurred during file creation.javax.management.BadAttributeValueExpException cannot be cast to userModel

