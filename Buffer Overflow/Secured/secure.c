@@ -9,8 +9,6 @@ int main(void) {
 
     int i=0;
 
- 
-
     printf("Enter a string: ");
 
     while(input!='\n') {
@@ -22,15 +20,10 @@ int main(void) {
         caps[i]=toupper(input);
 
         i++;
-
       }
-
     }
  
-
    printf("%s",caps);
-
- 
 
     return 0;
 
