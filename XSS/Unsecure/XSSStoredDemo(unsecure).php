@@ -24,8 +24,8 @@
 					<td><input name="txtName" type="text" size="30" maxlength="10"></td>
 				</tr>
 				<tr>
-					<td width="100">Message *</td>
-					<td><textarea name="mtxMessage" cols="50" rows="3" maxlength="50"></textarea></td>
+					<td width="100">note *</td>
+					<td><textarea name="mtxnote" cols="50" rows="3" maxlength="50"></textarea></td>
 				</tr>
 				<tr>
 					<td width="100">&nbsp;</td>
@@ -36,23 +36,23 @@
 			</table>
 <?php
 if( isset( $_POST[ 'btnSign' ] ) ) {
-$conn=($GLOBALS["___mysqli_ston"] = mysqli_connect("localhost",  "root",  "mysqlpassword", "dvwa", "3306")) or die ('Cannot connect to the database because: ' . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+$conn=($GLOBALS["___mysqli_ston"] = mysqli_connect("localhost",  "root",  "mysqlpassword", "web", "3306")) or die ('Cannot connect to the database because: ' . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
 	// Check connection
 	if ($conn -> connect_errno) {
 	echo "Failed to connect to MySQL: " . $conn -> connect_error;
 	exit();
 	}
    // Get input
-    $message = trim( $_POST[ 'mtxMessage' ] );
+    $note = trim( $_POST[ 'mtxnote' ] );
     $name    = trim( $_POST[ 'txtName' ] );
-    // Sanitize message input
-    $message = stripslashes( $message );
-	$message = ((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"],  $message ) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""));
+    // Sanitize note input
+    $note = stripslashes( $note );
+	$note = ((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"],  $note ) : ((trigger_error("[MySQLConverterToo] Error due to mysql_escape_string() fix and redploy this code!", E_USER_ERROR)) ? "" : ""));
 	
 	// Sanitize name input
-    $name = ((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"],  $name ) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""));    
+    $name = ((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"],  $name ) : ((trigger_error("[MySQLConverterToo] Error due to mysql_escape_string() fix and redploy this code!", E_USER_ERROR)) ? "" : ""));    
 	
-	$query = ("INSERT INTO guestbook ( comment, name ) VALUES ( '$message', '$name' );");
+	$query = ("INSERT INTO guestbook ( comment, name ) VALUES ( '$note', '$name' );");
     $result = mysqli_query($GLOBALS["___mysqli_ston"],  $query ) or die( '<pre>' . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . '</pre>' );
    
     //mysql_close();
@@ -62,11 +62,11 @@ $conn=($GLOBALS["___mysqli_ston"] = mysqli_connect("localhost",  "root",  "mysql
 	</form>
 </div>
 <br />
-	<div id="guestbook_comments">Name: test<br />Message: This is a test comment.<br /></div>
+	<div id="guestbook_comments">Name: test<br />note: This is a test comment.<br /></div>
 <?php
-$conn=($GLOBALS["___mysqli_ston"] = mysqli_connect("localhost",  "root",  "mysqlpassword", "dvwa", "3306")) or die ('Cannot connect to the database because: ' . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+$conn=($GLOBALS["___mysqli_ston"] = mysqli_connect("localhost",  "root",  "mysqlpassword", "web", "3306")) or die ('Cannot connect to the database because: ' . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
 	// XSS Stored guestbook function -- 
-function dvwaGuestbook() {
+function Guestbook() {
 	$querytwo  = "SELECT name, comment FROM guestbook ORDER BY comment_id DESC LIMIT 1";
 	$result = mysqli_query($GLOBALS["___mysqli_ston"],  $querytwo );
 	$guestbook = '';
@@ -76,11 +76,11 @@ function dvwaGuestbook() {
 			echo $name;
 			echo $comment;
 		}
-		$guestbook .= "<div id=\"guestbook_comments\">Name: {$name}<br />" . "Message: {$comment}<br /></div>\n";
+		$guestbook .= "<div id=\"guestbook_comments\">Name: {$name}<br />" . "note: {$comment}<br /></div>\n";
 	return $guestbook;
 }
 // -- END (XSS Stored guestbook)	 
-dvwaGuestBook();
+GuestBook();
 ?>
 
 <br />
